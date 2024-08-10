@@ -4,3 +4,4 @@ langchain
 langchain-core
 langchain-mistralai
 pydantic
+python-dotenv
