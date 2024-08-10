@@ -8,6 +8,10 @@ from pydantic import BaseModel
 
 load_dotenv()
 
+# define port number
+PORT = int(os.getenv("PORT", 8000))
+
+
 # Initialize FastAPI app
 app = FastAPI()
 
@@ -119,4 +123,4 @@ async def humanize_text(input: AIHumanizerInput):
 # Run the FastAPI server using uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
