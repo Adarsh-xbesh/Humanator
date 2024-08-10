@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
 import os
 from langchain_mistralai import ChatMistralAI
 from langchain_core.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -15,9 +18,8 @@ class AIHumanizerInput(BaseModel):
 
 # Set up the AI Model
 def setup_model():
-    os.environ["Mistral_API_KEY"] = "GOxLJgH2OsIptcZDvlIK2pWHpCKOLtqW"
-    mistral_API_KEY = os.getenv("Mistral_API_KEY")
-    model = ChatMistralAI(api_key=mistral_API_KEY)
+    Mistral_API_KEY = os.getenv("Mistral_API_KEY")
+    model = ChatMistralAI(api_key=Mistral_API_KEY)
 
 # Prompt template with enhanced details
     prompt_template = """
@@ -93,6 +95,9 @@ def setup_model():
 # Define the API endpoint
 @app.post("/humanize")
 async def humanize_text(input: AIHumanizerInput):
+
+    if len(input.ai_generated_text) == 0:
+        raise HTTPException(status_code=422, detail="Please Input Some Text")
 
     # validating the input text
     if len(input.ai_generated_text) < 10:
